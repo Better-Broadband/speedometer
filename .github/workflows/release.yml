@@ -8,11 +8,6 @@ on:
 
 jobs:
   build-release:
-    strategy:
-      matrix:
-        target:
-          - x86_64-unknown-linux-gnu
-          - x86_64-pc-windows-gnu
     name: Build Release Binaries
     runs-on: ubuntu-latest
     steps:

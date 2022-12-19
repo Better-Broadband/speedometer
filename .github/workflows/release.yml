@@ -31,9 +31,8 @@ jobs:
         cargo build --release --target x86_64-pc-windows-gnu --verbose
         mv target/release/speedometer.exe dist/speedometer-x86_64-windows
     - name: Automatic Release With Assets
-      uses: ianlapham/release-and-build@v1
+      uses: softprops/action-gh-release@v0.1.15
       with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
         draft: true
         prerelease: true
         files: |

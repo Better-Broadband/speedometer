@@ -36,22 +36,11 @@ pub struct LogRecord {
     upload: Bandwidth,
     ping: f32,
     client_ip: String,
-    client_lon: Option<String>,
     client_lat: Option<String>,
+    client_lon: Option<String>,
 }
 
 impl LogRecord {
-    pub const HEADERS: [&'static str; 9] = [
-        "DeviceName",
-        "TimeStamp",
-        "TestName",
-        "Download",
-        "Upload",
-        "Ping",
-        "ClientIP",
-        "ClientLongitude",
-        "ClientLatitude",
-    ];
     pub fn from_json(bytes: &[u8]) -> Result<Self, Box<Error>> {
         let raw: RawLogRecord = serde_json::from_slice(bytes).map_err(Error::JsonParseError)?;
         let log: LogRecord = raw.try_into()?;

@@ -52,7 +52,6 @@ async fn main() -> anyhow::Result<()> {
     let f = File::create(output_filename)?;
     let mut csv_w = csv::Writer::from_writer(f);
 
-    csv_w.write_record(LogRecord::HEADERS)?;
     for log_file in log_files {
         csv_w.serialize(log_file)?;
     }

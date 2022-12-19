@@ -1,40 +1,39 @@
-
 name: Prepare Release
 
 on:
+  workflow_dispatch:
   push:
     tags:
-    - "v*"
+      - "v*"
 
 jobs:
   build-release:
     strategy:
       matrix:
         target:
-        - x86_64-unknown-linux-gnu
-        - x86_64-pc-windows-gnu
+          - x86_64-unknown-linux-gnu
+          - x86_64-pc-windows-gnu
     name: Build Release Binaries
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up toolchain
-      run: |
-        rustup target add x86_64-unknown-linux-gnu
-        rustup target add x86_64-pc-windows-gnu
-        mkdir dist
-    - name: Build Linux
-      run: |
-        cargo build --release --target x86_64-unknown-linux-gnu --verbose
-        mv target/release/speedometer dist/speedometer-x86_64-linux
-    - name: Build Windows
-      run: |
-        cargo build --release --target x86_64-pc-windows-gnu --verbose
-        mv target/release/speedometer.exe dist/speedometer-x86_64-windows
-    - name: Automatic Release With Assets
-      uses: softprops/action-gh-release@v0.1.15
-      with:
-        draft: true
-        prerelease: true
-        files: |
-          dist/*
-        
+      - uses: actions/checkout@v3
+      - name: Set up toolchain
+        run: |
+          rustup target add x86_64-unknown-linux-gnu
+          rustup target add x86_64-pc-windows-gnu
+          mkdir dist
+      - name: Build Linux
+        run: |
+          cargo build --release --target x86_64-unknown-linux-gnu --verbose
+          mv target/x86_64-unknown-linux-gnu/release/speedometer dist/speedometer-x86_64-linux
+      - name: Build Windows
+        run: |
+          cargo build --release --target x86_64-pc-windows-gnu --verbose
+          mv target/x86_64-pc-windows-gnu/release/speedometer.exe dist/speedometer-x86_64-windows
+      - name: Automatic Release With Assets
+        uses: softprops/action-gh-release@v0.1.15
+        with:
+          draft: true
+          prerelease: true
+          files: |
+            dist/*
